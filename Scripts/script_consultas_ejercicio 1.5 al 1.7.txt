@@ -1,0 +1,32 @@
+ -- TRAE TODOS LOS REGISTROS QUE TENGAN UNA VENTA
+	SELECT 
+			P.idProducto, 
+			P.nombre, 
+			P.precio, 
+			SUM(V.cantidad) AS cant_productos,
+			COUNT(P.idProducto) AS cant_ventas
+	FROM productos P 
+	INNER JOIN ventas V ON P.idProducto = V.IdProducto
+	GROUP BY P.idProducto
+	HAVING cant_ventas = 1;
+    
+     -- TRAE TODOS LOS PRODUCTOS QUE TENGAN VENTAS Y LA CANTIDAD TOTAL DE PRODUCTOS VENDIDOS
+	SELECT 
+			P.idProducto, 
+			P.nombre, 
+			P.precio, 
+			SUM(V.cantidad) AS cantidad
+	FROM productos P 
+  INNER JOIN ventas V ON P.idProducto = V.IdProducto
+  GROUP BY P.idProducto;
+    
+    -- TRAE TODOS LOS PRODUCTOS (INDEPENDIENTEMENTE DE SI TIENEN VENTAS O NO) Y LA SUMA TOTAL ($) VENDIDA POR PRODUCTO
+	SELECT 
+			P.idProducto, 
+			P.nombre, 
+			P.precio, 
+			SUM(V.cantidad) AS cantidad,
+			SUM(P.precio*V.cantidad) AS total
+	FROM productos P 
+  LEFT JOIN ventas V ON P.idProducto = V.IdProducto
+  GROUP BY P.idProducto;
